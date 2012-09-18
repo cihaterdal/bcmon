@@ -3481,7 +3481,6 @@ dhd_preinit_ioctls(dhd_pub_t *dhd)
 	/* enable WLFC only if the firmware is VSDB */
 #endif /* PROP_TXSTATUS */
 
-	global_dhd = dhd;
 	DHD_TRACE(("Enter %s\n", __FUNCTION__));
 	dhd->op_mode = 0;
 #ifdef GET_CUSTOM_MAC_ENABLE

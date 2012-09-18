@@ -602,6 +602,7 @@ wl_iw_set_mode(
 		infra = ap = 1;
 		break;
 	case IW_MODE_ADHOC:
+	case IW_MODE_MONITOR:
 	case IW_MODE_AUTO:
 		break;
 	case IW_MODE_INFRA:
@@ -639,7 +640,7 @@ wl_iw_get_mode(
 
 	infra = dtoh32(infra);
 	ap = dtoh32(ap);
-	*uwrq = infra ? ap ? IW_MODE_MASTER : IW_MODE_INFRA : IW_MODE_ADHOC;
+	*uwrq =  IW_MODE_MONITOR;//infra ? ap ? IW_MODE_MASTER : IW_MODE_INFRA : IW_MODE_ADHOC;
 
 	return 0;
 }
