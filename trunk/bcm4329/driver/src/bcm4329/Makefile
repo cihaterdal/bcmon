@@ -18,4 +18,5 @@ DHDOFILES = bcmon.o dhd_linux.o linux_osl.o bcmutils.o dhd_common.o dhd_custom_g
 obj-$(CONFIG_BCM4329) += bcm4329.o
 bcm4329-objs += $(DHDOFILES)
 EXTRA_CFLAGS = $(DHDCFLAGS)
+EXTRA_CFLAGS += -fno-pic
 #EXTRA_LDFLAGS += --strip-debug
