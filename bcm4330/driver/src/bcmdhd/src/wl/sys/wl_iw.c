@@ -602,7 +602,6 @@ wl_iw_set_mode(
 		infra = ap = 1;
 		break;
 	case IW_MODE_ADHOC:
-	case IW_MODE_MONITOR:
 	case IW_MODE_AUTO:
 		break;
 	case IW_MODE_INFRA:
