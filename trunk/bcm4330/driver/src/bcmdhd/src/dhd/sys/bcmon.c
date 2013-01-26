@@ -2,9 +2,23 @@
 #include <linux/module.h>	/* Specifically, a module */
 #include <linux/fs.h>
 #include <asm/uaccess.h>	/* for get_user and put_user */
+#include <linux/netdevice.h>
 #include <osl.h>
 
 #include "bcmon.h"
+
+
+static struct net_device * mon_dev;
+
+void register_mon_dev(struct net_device * netdev)
+{
+	mon_dev = netdev;
+}
+
+void delete_mon_dev(void)
+{
+	mon_dev = NULL;
+}
 
 struct sk_buff* bcmon_decode_skb(struct sk_buff* skb)
 {
@@ -15,6 +29,10 @@ struct sk_buff* bcmon_decode_skb(struct sk_buff* skb)
 	int rssi;
 	char my_byte;
 
+//	if (NULL != mon_dev)
+//	{
+//		skb->dev = mon_dev;
+//	}
 	data = skb->data;
 	pkt_len = *(unsigned short*)data;
 	pskb_trim(skb, pkt_len);
@@ -22,6 +40,12 @@ struct sk_buff* bcmon_decode_skb(struct sk_buff* skb)
 	data_offset = 0x38; //12+ 0x1e + 6;
 	if(pkt_len<24)
 		return 0;
+
+	if(memcmp(skb->data + 12, "MITS", 4)==0)
+	{
+		return skb;
+	}
+
 	my_byte = data[0x1c];
 	if ((my_byte==5) || (my_byte==1))
 		return 0;

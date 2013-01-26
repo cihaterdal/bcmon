@@ -182,8 +182,6 @@ const bcm_iovar_t dhd_iovars[] = {
 	{NULL, 0, 0, 0, 0 }
 };
 
-dhd_pub_t *global_dhd;
-
 void
 dhd_common_init(osl_t *osh)
 {

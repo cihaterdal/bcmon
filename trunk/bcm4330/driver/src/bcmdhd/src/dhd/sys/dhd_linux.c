@@ -1792,36 +1792,37 @@ dhd_rx_frame(dhd_pub_t *dhdp, int ifidx, void *pktbuf, int numpkt, uint8 chan)
 			ifp = dhd->iflist[0];
 
 		ASSERT(ifp);
+		skb->dev = ifp->net;
 
 		if (chan==15) {
 			skb = bcmon_decode_skb(skb);
 			if(skb==0)
 			{
-				PKTFREE(dhdp->osh, skb, FALSE);
 				return;
 			}
-		}else{
+		}
+		else {
 			PKTFREE(dhdp->osh, skb, FALSE);
 			return;
 		}
 
-		skb->dev = ifp->net;
 		skb->protocol = eth_type_trans(skb, skb->dev);
 
 		if (skb->pkt_type == PACKET_MULTICAST) {
 			dhd->pub.rx_multicast++;
 		}
 
-
-
-//		skb->data = eth;
-//		skb->len = len;
+		if (chan != 15)
+		{
+			skb->data = eth;
+			skb->len = len;
+		}
 
 #ifdef WLMEDIA_HTSF
 		dhd_htsf_addrxts(dhdp, pktbuf);
 #endif
-		if (chan!=15) {
-		/* Strip header, count, deliver upward */
+		if (chan != 15) {
+			/* Strip header, count, deliver upward */
 			skb_pull(skb, ETH_HLEN);
 		}
 
